@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lecon {{lecon.id}}{% endblock %}
+
+{% block body %}
+<div class="card m-3">
+
+<div class="card-body">
+     <h1 class="card-title ms-2">Leçon {{lecon.id}}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ lecon.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ lecon.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ lecon.Description | markdown | raw}}</td>
+            </tr>
+             <tr>
+                <th>Créateur</th>
+                <td>{{ lecon.createur.prenom}} {{ lecon.createur.nom}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="m-3">
+            <a  href="{{ path('app_lecon_index') }}">Retour liste des leçons</a>
+    </div>
+{% if  app.user %}
+
+{% if  app.user.username == lecon.createur.username %}
+
+    <button onclick="location.href='{{ path('app_lecon_edit', {'id': lecon.id}) }}'"
+                    title="Modifier la leçon" class="btn btn-primary mb-3">Modifier</button>
+
+    {{ include('lecon/_delete_form.html.twig') }}
+
+{% endif %}
+
+                       {% if is_granted('ROLE_ELEVE') %}
+                       {% if app.user in lecon.inscrits %}
+
+          <button onclick="location.href='{{ path('app_lecon_inscription', {'id': lecon.id}) }}'"
+                    title="S'incrire" class="btn btn-success">Se désinscrire</button>
+
+                        {% else %}
+
+        <button onclick="location.href='{{ path('app_lecon_inscription', {'id': lecon.id}) }}'"
+                    title="S'incrire" class="btn btn-primary">S'incrire</button>
+                        {% endif %}
+                        {% endif %}
+</div>
+</div>
+
+
+ {% if is_granted('ROLE_PROFESSEUR') %}
+
+<div class="card m-3">
+<div class="card-body">
+<h3 class="card-title">Élèves inscrits</h3>
+ <table class="table table-striped table-sm w-auto">
+        <thead>
+            <tr>
+                <th>Nom d'utilisateur</th>
+                <th>Prenom</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for  inscrit in lecon.inscrits %}
+            <tr>  
+                <td>{{ inscrit.username }}</td>
+                <td>{{ inscrit.prenom }}</td>
+                <td>{{ inscrit.nom }}</td>
+            </tr>  
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun inscrit !</td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+        {% endif %}
+
+
+
+
+        {% endif %}
+
+</div>
+
+
+{% endblock %}

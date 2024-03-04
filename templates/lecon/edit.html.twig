@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une leçon{% endblock %}
+
+{% block body %}
+     <h1 class="fst-italic fw-bold ms-2">Modifier une leçon</h1>
+
+    <div class="card-body">
+
+        {{ include('lecon/_form.html.twig', {'button_label': 'Modifier la leçon'}) }}
+
+
+            <div class="m-3">
+            <a  href="{{ path('app_lecon_index') }}">Retour liste des leçons</a>
+            </div>
+        
+
+        
+        {{ include('lecon/_delete_form.html.twig') }}
+    </div>
+
+    
+{% endblock %}

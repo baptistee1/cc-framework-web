@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+
+
+{% block title %}Leçon index{% endblock %}
+
+{% block body %}
+    <h1 class="fst-italic fw-bold ms-2">Les leçons</h1>
+
+    
+        {% for lecon in lecons %}
+                   {{ include('layers/_index_lecon.html.twig') }}
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+  
+
+{% if is_granted('ROLE_PROFESSEUR', app.user) %}
+    <button  onclick="location.href='{{ path('app_lecon_new') }}'"
+                    title="Créer une nouvelle leçon" class="btn btn-primary m-3">Nouvelle leçon</button>
+{% endif %}
+
+    
+{% endblock %}

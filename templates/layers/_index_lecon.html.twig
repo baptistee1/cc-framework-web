@@ -1,0 +1,53 @@
+<div class="card" >
+    <div class="card-body">
+        <h2 class="card-title">{{ lecon.nom }}</h2>
+
+        <p class="card-text">
+       
+           Leçon créée par : {{ lecon.createur.prenom}} {{ lecon.createur.nom}}
+        </p>
+        <p class="card-text">
+       
+            {{ lecon.description | markdown | raw }}
+        </p>
+
+
+
+        {% if  app.user %}
+
+     
+
+
+
+
+            {% if  app.user.username == lecon.createur.username %}
+            <button onclick="location.href='{{ path('app_lecon_edit', {'id': lecon.id}) }}'"
+                    title="Modifier la leçon" class="btn btn-primary">Modifier</button>
+            {{ include('layers/_delete_lecon.html.twig') }}
+
+            {% endif %} 
+        {% endif %}
+
+             <button onclick="location.href='{{ path('app_lecon_show', {'id': lecon.id}) }}'"
+                    title="Show" class="btn btn-primary">Voir la leçon</button>
+        {% if  app.user %}
+                       
+                       {% if is_granted('ROLE_ELEVE') %}
+                       {% if app.user in lecon.inscrits %}
+
+          <button onclick="location.href='{{ path('app_lecon_inscription', {'id': lecon.id}) }}'"
+                    title="S'incrire" class="btn btn-success">Se désinscrire</button>
+
+                        {% else %}
+
+        <button onclick="location.href='{{ path('app_lecon_inscription', {'id': lecon.id}) }}'"
+                    title="S'incrire" class="btn btn-primary">S'incrire</button>
+                        {% endif %}
+                        {% endif %}
+
+
+        {% endif %}
+
+        <p class="text-muted card-text">Id : {{lecon.id}}</p>
+    </div>
+</div>

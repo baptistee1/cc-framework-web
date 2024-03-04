@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle leçon{% endblock %}
+
+{% block body %}
+     <h1 class="fst-italic fw-bold ms-2">Créer une nouvelle leçon</h1>
+
+
+    <div class="card-body">
+    
+
+    {{ include('lecon/_form.html.twig', {'button_label': 'Créer la leçon'}) }}
+
+     <div class="m-3">
+            <a  href="{{ path('app_lecon_index') }}">Retour liste des leçons</a>
+    </div>
+
+    </div>
+
+
+{% endblock %}
